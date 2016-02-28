@@ -18,15 +18,24 @@ public class PlayerControll : MonoBehaviour {
         float vertical = Input.GetAxis("Vertical");
 
         CharacterController contoller = GetComponent<CharacterController>();
-        Vector3 movement = transform.forward * moveSpeed * vertical;
+        Vector3 forwardMovement = transform.forward * moveSpeed * vertical;
+        Vector3 sideMovement = transform.right * moveSpeed * horizontal;
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            contoller.Move((movement+Physics.gravity)*Time.deltaTime);
+            contoller.Move((forwardMovement + Physics.gravity)*Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
-            contoller.Move((movement + Physics.gravity) * Time.deltaTime);
+            contoller.Move((forwardMovement + Physics.gravity) * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            contoller.Move((sideMovement + Physics.gravity) * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            contoller.Move((sideMovement + Physics.gravity) * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.D))
         {

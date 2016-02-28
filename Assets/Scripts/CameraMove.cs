@@ -15,10 +15,19 @@ public class CameraMove : MonoBehaviour {
 
         Transform getTransform = GetComponent<Transform>();
 
-        float aimDirrection = -Input.GetAxis("Mouse ScrollWheel");
-        float cameraRotation = aimSpeed * Time.deltaTime * aimDirrection;
+        float vertical = -Input.GetAxis("Vertical");
 
-        transform.Rotate(cameraRotation, 0f, 0f);
+        //float aimDirrection = -Input.GetAxis("Mouse ScrollWheel");
+        float cameraRotation = aimSpeed * Time.deltaTime * vertical;
 
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Rotate(cameraRotation,0f, 0f);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Rotate(cameraRotation,0f, 0f);
+        }
     }
 }
