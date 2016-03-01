@@ -30,6 +30,7 @@ public class EagerStudent : MonoBehaviour {
     public string responceIncorrectAnswere;
     public string responceNeutralAnswere;
 
+    bool isQuestionAnswered = false;
     bool isQuestionAnsweredCorrect = false;
     bool isQuestionAnsweredIncorrect = false;
 
@@ -67,27 +68,35 @@ public class EagerStudent : MonoBehaviour {
                 instructions.enabled = false;
 
             }
-            if (Input.GetKeyDown(correctAnswere))
+            if (isQuestionAnswered == false)
             {
-                conversations.text = responceCorrectAnswere;
-                isQuestionAnsweredCorrect = true;
-                scoreCorrect += scoreCorrect;
-                Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
-                eagerStudentRenderer.enabled = false;
+                if (Input.GetKeyDown(correctAnswere))
+                {
+                    conversations.text = responceCorrectAnswere;
+                    isQuestionAnsweredCorrect = true;
+                    scoreCorrect += scoreCorrect;
+                    Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
+                    eagerStudentRenderer.enabled = false;
+                    isQuestionAnswered = true;
 
-            }
-            if (Input.GetKeyDown(neutralAnswere1)|| Input.GetKeyDown(neutralAnswere2))
-            {
-                conversations.text = responceNeutralAnswere;
-                isQuestionAnsweredCorrect = true;
-                Instantiate(Student,new Vector3(eagerStudent.position.x,studentPosition.position.y, eagerStudent.position.z),eagerStudent.rotation);
-            }
-            if (Input.GetKeyDown(incorrectAnswere1)||Input.GetKeyDown(incorrectAnswere2))
-            {
-                conversations.text = responceIncorrectAnswere;
-                isQuestionAnsweredIncorrect = true;
-                scoreIncorrect += scoreIncorrect;
-                Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
+                }
+                if (Input.GetKeyDown(neutralAnswere1) || Input.GetKeyDown(neutralAnswere2))
+                {
+                    conversations.text = responceNeutralAnswere;
+                    isQuestionAnsweredCorrect = true;
+                    Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
+                    eagerStudentRenderer.enabled = false;
+                    isQuestionAnswered = true;
+                }
+                if (Input.GetKeyDown(incorrectAnswere1) || Input.GetKeyDown(incorrectAnswere2))
+                {
+                    conversations.text = responceIncorrectAnswere;
+                    isQuestionAnsweredIncorrect = true;
+                    scoreIncorrect += scoreIncorrect;
+                    Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
+                    eagerStudentRenderer.enabled = false;
+                    isQuestionAnswered = true;
+                }
             }
             
         }
