@@ -34,12 +34,14 @@ public class EagerStudent : MonoBehaviour {
     bool isQuestionAnsweredCorrect = false;
     bool isQuestionAnsweredIncorrect = false;
 
+    public static EagerStudent lastStudent;
+
     // Use this for initialization
     void Start () {
 
         conversations.text = studentQuestion + ("\n"+answereA) + ("\n"+answereB) + ("\n"+answereC);
         conversations.enabled = false;
-        instructions.text = "Press [Space]to talk";
+        instructions.text = "Press [Space] to talk";
         instructions.enabled = false;
         
         
@@ -52,12 +54,14 @@ public class EagerStudent : MonoBehaviour {
         Transform eagerStudent = gameObject.GetComponent<Transform>();
         Transform studentPosition = Student.GetComponent<Transform>();
 
-        if ((eagerStudent.position - Player.position).magnitude > 5f)
+        if ((eagerStudent.position - Player.position).magnitude > 2f && lastStudent==this)
         {
             conversations.enabled = false;
+            instructions.enabled = false;
         }
-            if ((eagerStudent.position - Player.position).magnitude < 5f)
+            if ((eagerStudent.position - Player.position).magnitude < 2f)
         {
+            lastStudent = this;
             if(conversations.enabled == false)
             {
                 instructions.enabled = true;

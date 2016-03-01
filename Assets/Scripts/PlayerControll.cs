@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerControll : MonoBehaviour {
 
@@ -17,11 +18,13 @@ public class PlayerControll : MonoBehaviour {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
+        Transform Player = gameObject.GetComponent<Transform>();
         CharacterController contoller = GetComponent<CharacterController>();
         Vector3 forwardMovement = transform.forward * moveSpeed * vertical;
         Vector3 sideMovement = transform.right * moveSpeed * horizontal;
 
-        if (Input.GetKey(KeyCode.UpArrow))
+
+            if (Input.GetKey(KeyCode.UpArrow))
         {
             contoller.Move((forwardMovement + Physics.gravity)*Time.deltaTime);
         }
