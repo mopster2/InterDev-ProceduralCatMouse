@@ -6,9 +6,14 @@ public class PlayerControll : MonoBehaviour {
 
     public float moveSpeed = 0.06f;
     public float turnSpeed = 90f;
+    public Text instructions;
+    public Text endGame;
 
+    public Transform exitPosition; 
     // Use this for initialization
     void Start () {
+
+        endGame.enabled = false;
 	
 	}
 	
@@ -47,6 +52,18 @@ public class PlayerControll : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
         {
             transform.Rotate(0f, horizontal*turnSpeed * Time.deltaTime, 0f);
+        }
+        if ((Player.position - exitPosition.position).magnitude < 4)
+        {
+            instructions.text = "Press [Space] to leave";
+            instructions.enabled = true;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                endGame.enabled = true;
+                moveSpeed = 0;
+                turnSpeed = 0;
+            }
         }
 
     }

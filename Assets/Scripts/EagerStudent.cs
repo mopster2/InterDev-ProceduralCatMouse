@@ -6,10 +6,12 @@ public class EagerStudent : MonoBehaviour {
 
     public Text conversations;
     public Text instructions;
-    public Text score;
+    public Text endGame;
 
-    public int scoreCorrect;
-    public int scoreIncorrect;
+    public static int scoreFun;
+    public static int scoreMean;
+    public static int scoreBoring;
+    public static int scoreAnswered;
 
     public Transform Player;
     public GameObject Student;
@@ -36,8 +38,12 @@ public class EagerStudent : MonoBehaviour {
 
     public static EagerStudent lastStudent;
 
+  
+    
+
     // Use this for initialization
     void Start () {
+
 
         conversations.text = studentQuestion + ("\n"+answereA) + ("\n"+answereB) + ("\n"+answereC);
         conversations.enabled = false;
@@ -50,11 +56,14 @@ public class EagerStudent : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        MeshRenderer eagerStudentRenderer = gameObject.GetComponent<MeshRenderer>();
+        MeshRenderer[] eagerStudentRenderer = GetComponentsInChildren<MeshRenderer>();
+       // foreach (MeshRenderer renderStudent in eagerStudentRenderer) ;
+
         Transform eagerStudent = gameObject.GetComponent<Transform>();
         Transform studentPosition = Student.GetComponent<Transform>();
 
         if ((eagerStudent.position - Player.position).magnitude > 2f && lastStudent==this)
+        //if (gameObject is triggered)
         {
             conversations.enabled = false;
             instructions.enabled = false;
@@ -72,15 +81,17 @@ public class EagerStudent : MonoBehaviour {
                 instructions.enabled = false;
 
             }
-            if (isQuestionAnswered == false)
+            if (isQuestionAnswered == false && conversations.enabled==true)
             {
                 if (Input.GetKeyDown(correctAnswere))
                 {
                     conversations.text = responceCorrectAnswere;
                     isQuestionAnsweredCorrect = true;
-                    scoreCorrect += scoreCorrect;
+                    EagerStudent.scoreFun += EagerStudent.scoreFun;
+                    EagerStudent.scoreAnswered = EagerStudent.scoreAnswered +1;
                     Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
-                    eagerStudentRenderer.enabled = false;
+                    foreach (MeshRenderer renderStudent in eagerStudentRenderer)
+                         renderStudent.enabled = false;
                     isQuestionAnswered = true;
 
                 }
@@ -88,21 +99,50 @@ public class EagerStudent : MonoBehaviour {
                 {
                     conversations.text = responceNeutralAnswere;
                     isQuestionAnsweredCorrect = true;
+                    EagerStudent.scoreBoring += EagerStudent.scoreBoring;
+                    EagerStudent.scoreAnswered = EagerStudent.scoreAnswered +1;
                     Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
-                    eagerStudentRenderer.enabled = false;
+                    foreach (MeshRenderer renderStudent in eagerStudentRenderer)
+                        renderStudent.enabled = false;
                     isQuestionAnswered = true;
                 }
                 if (Input.GetKeyDown(incorrectAnswere1) || Input.GetKeyDown(incorrectAnswere2))
                 {
                     conversations.text = responceIncorrectAnswere;
                     isQuestionAnsweredIncorrect = true;
-                    scoreIncorrect += scoreIncorrect;
+                    EagerStudent.scoreMean += EagerStudent.scoreMean;
+                    EagerStudent.scoreAnswered = EagerStudent.scoreAnswered +1;
                     Instantiate(Student, new Vector3(eagerStudent.position.x, studentPosition.position.y, eagerStudent.position.z), eagerStudent.rotation);
-                    eagerStudentRenderer.enabled = false;
+                    foreach (MeshRenderer renderStudent in eagerStudentRenderer)
+                        renderStudent.enabled = false;
                     isQuestionAnswered = true;
                 }
             }
             
+
+        }
+        if (EagerStudent.scoreAnswered < 3)
+        {
+            endGame.text = "The students seemed very upset that you didn’t want to answer any of their questions. They didn't enjoy your visit.  Press [ESC] to leave. ";
+        }
+        if (EagerStudent.scoreAnswered > 3)
+        {
+            if (EagerStudent.scoreBoring > 3)
+            {
+                endGame.text = "Your answers were all correct but the student found you very boring, they wish you had been more fun. Press [ESC] to leave.";
+            }
+            else if (EagerStudent.scoreFun > 3)
+            {
+                endGame.text = "The students loved your answers, even if a few of them weren't entirely correct. Their teacher and parents might not appreciate them as much though. Press [ESC] to leave.";
+            }
+            else if (EagerStudent.scoreMean > 3)
+            {
+                endGame.text = "The Students found you very mean, they said they would rather have extra math homework then have you visit again. Press [ESC] to leave.";
+            }
+            else 
+            {
+                endGame.text = "The students all had very different opinions of you. Some thought you were funny, some thought you were smart and one kid really didn’t like you, but all in all it was a good visit. Press [ESC] to leave.";
+            }
         }
     }
 }
