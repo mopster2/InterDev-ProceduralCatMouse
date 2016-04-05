@@ -13,18 +13,21 @@ public class MouseChase : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 directionToCat = (cat.position - transform.position);
-
-        if (Vector3.Angle(transform.forward, directionToCat) < 180f)
+        foreach (CatChase thisCat in GameManager.listOfCat)
         {
-            Ray mouseRay = new Ray(transform.position, directionToCat);
-            RaycastHit mouseRayHitInfo = new RaycastHit();
-            if (Physics.Raycast(mouseRay, out mouseRayHitInfo, 100))
+            Vector3 directionToCat = (thisCat.transform.position - transform.position);
+
+            if (Vector3.Angle(transform.forward, directionToCat) < 180f)
             {
-                if (mouseRayHitInfo.collider.tag == "Cat")
+                Ray mouseRay = new Ray(transform.position, directionToCat);
+                RaycastHit mouseRayHitInfo = new RaycastHit();
+                if (Physics.Raycast(mouseRay, out mouseRayHitInfo, 100))
                 {
-                    GetComponent<Rigidbody>().AddForce(-directionToCat.normalized * 1000f);
-                    
+                    if (mouseRayHitInfo.collider.tag == "Cat")
+                    {
+                        GetComponent<Rigidbody>().AddForce(-directionToCat.normalized * 1000f);
+
+                    }
                 }
             }
         }

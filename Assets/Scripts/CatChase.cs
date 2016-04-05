@@ -9,7 +9,7 @@ public class CatChase : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         foreach (MouseChase thisMouse in GameManager.listOfMouse)
         {
             if (thisMouse.transform.position == null)
